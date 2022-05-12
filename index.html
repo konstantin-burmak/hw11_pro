@@ -1,59 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>homework11</title>
-    <body>
-        <script>
-            getSum = (a, b) => a + b;
+    <head>
+        <meta charset="UTF-8" />
+        <title>homework11</title>
+        <body>
+            <script>
+                const getSum = (a, b) => a + b;
 
-            function makeCaching(f) {
-                const cache = [];
+                function makeCaching(f) {
+                    const cache = [];
+                    return function (...args) {
+                        const newItem = {
+                            arguments: args,
+                            result: f(...args),
+                        };
 
-                console.log(cache);
+                        const isCorrect = (value, index) => value === args[index];
 
-                return function(...args) {
-                    const newItem = {
-                    arguments: args,
-                    result: f(...args)
-                    }
+                        const argumentsCheck = cache.find((i) => i.arguments.every(isCorrect));
 
-                    isCorrect = (value, index) =>  value === args[index];
+                        if (argumentsCheck) {
+                            return argumentsCheck.result;
+                        }
 
-                    const argumentsCheck = cache.find(i => i.arguments.every(isCorrect));
+                        if (cache.length >= 10) {
+                            cache.shift();
+                            cache.push(newItem);
+                            return newItem.result;
+                        }
 
-                    if (argumentsCheck) {
-                        return argumentsCheck.result;
-                    }
-
-                    if (cache.length >= 10) {
-                        cache.splice(0, 1);
                         cache.push(newItem);
                         return newItem.result;
-                    }
-
-                    cache.push(newItem);
-                    return newItem.result;
-                };
-            }
-
-            getSum = makeCaching(getSum);
-            console.log(getSum(1, 1));
-            console.log(getSum(1, 2));
-            console.log(getSum(1, 3));
-            console.log(getSum(1, 4));
-            console.log(getSum(1, 4));
-            console.log(getSum(1, 4));
-            console.log(getSum(2, 1));
-            console.log(getSum(2, 2));
-            console.log(getSum(2, 2));
-            console.log(getSum(3, 1));
-            console.log(getSum(3, 2));
-            console.log(getSum(3, 3));
-            console.log(getSum(3, 4));
-            console.log(getSum(3, 5));
-            console.log(getSum(3, 7));
-            console.log(getSum(3, 7));
-        </script>
-    </body>
-</head>
+                    };
+                }
+                
+                cachingSum = makeCaching(getSum);
+                console.log(
+                    cachingSum(1, 1),
+                    cachingSum(1, 2),
+                    cachingSum(1, 3),
+                    cachingSum(1, 4),
+                    cachingSum(1, 4),
+                    cachingSum(1, 4),
+                    cachingSum(2, 1),
+                    cachingSum(2, 2),
+                    cachingSum(2, 2),
+                    cachingSum(3, 1),
+                    cachingSum(3, 2),
+                    cachingSum(3, 3),
+                    cachingSum(3, 4),
+                    cachingSum(3, 5),
+                    cachingSum(3, 7),
+                    cachingSum(3, 7)
+                );
+            </script>
+        </body>
+    </head>
+</html>
